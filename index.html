@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>จีบน้องรหัส</title>
+  </head>
+  <link
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
+    crossorigin="anonymous"
+  />
+  <style>
+    body {
+      font-family: "FC Muffin Regular";
+    }
+    @font-face {
+      font-family: "FC Muffin Regular";
+      src: url("FC\ Muffin\ Regular.ttf");
+    }
+    .wrap {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .box {
+      width: 5rem;
+      height: 5rem;
+      background-color: #bb79fe;
+      border: 1px solid black;
+      padding-top: 0.8rem;
+      font-size: 35px;
+      text-align: center;
+    }
+    .box-i {
+      width: 5rem;
+      height: 5rem;
+      background-color: #cc99ff;
+      border: 1px solid black;
+      padding-top: 0.8rem;
+      font-size: 35px;
+      text-align: center;
+    }
+    .box-x {
+      width: 5rem;
+      height: 5rem;
+      background-color: #cc99ff;
+      border: 1px solid black;
+      padding-top: 0.8rem;
+      font-size: 35px;
+      text-align: center;
+      text-decoration: line-through;
+    }
+  </style>
+  <body>
+    <div id="wrap" class="wrap"></div>
+  </body>
+  <script>
+    let Data;
+    if (localStorage.FIFA_BOXES) {
+      Data = localStorage.FIFA_BOXES.split(",");
+    } else {
+      Data = [...Array(144).keys()].map((n) => (n + 1).toString());
+    }
+    let Boxes = [...Array(144).keys()].map((n) => (n + 1).toString());
+
+    const getF = (b) => {
+      if (Data.includes(b.toString())) {
+        return (Math.floor(Math.random() * 10) > 5 ? 0 : 1) % 2 != 0
+          ? ""
+          : "-i";
+      } else {
+        return "-x";
+      }
+    };
+
+    document.getElementById("wrap").innerHTML = Boxes.map(
+      (b) =>
+        '<div onClick="select(' +
+        b +
+        ')" class="box' +
+        getF(b) +
+        '">' +
+        b +
+        "</div>"
+    ).join("");
+
+    const select = (b) => {
+      if (Data.includes(b.toString())) {
+        console.log(Data.filter((d) => d != b));
+        localStorage.setItem(
+          "FIFA_BOXES",
+          Data.filter((d) => d != b)
+        );
+        window.location = "/imgShow.html?" + b;
+      }
+    };
+  </script>
+</html>
